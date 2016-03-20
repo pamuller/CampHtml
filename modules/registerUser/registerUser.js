@@ -1,5 +1,5 @@
 'use strict';
-define(['angular','ngMessages','ngMaterial'],
+define(['angular'],
        function (angular) {
     angular.module('myApp.registerUser', [])
     .controller('registerUserCtrl', registerUserCtrl)
@@ -12,7 +12,7 @@ define(['angular','ngMessages','ngMaterial'],
           $scope.myDate.getMonth() - 2,
           $scope.myDate.getDate());
         
-       
+   // var province = require('../province/province') ;
 
         let vm=this;
         
@@ -33,7 +33,7 @@ define(['angular','ngMessages','ngMaterial'],
     }
 
 
-
+  
 });
 
 

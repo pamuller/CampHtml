@@ -2,7 +2,7 @@
     
 <div class="panel panel-default" ng-show="churches.church">
     
-<form role="form" name="churches.formChurch"  ng-submit="churches.add()" novalidate class="simple-form">
+<form role="form" name="churches.formChurch"  ng-submit="churches.isCreation? churches.add():churches.updateChurch()" novalidate class="simple-form">
  <div class="panel panel-default" >
    <div class="panel-heading">Church Info</div>
      <div class="panel-body">
@@ -15,9 +15,11 @@
          </div>
         <div class="form-group has-feedback" ng-class="{'has-error':churches.formChurch.churchprovince.$invalid}">
                  <label>Province</label>
-                 <select class="form-control"  name="churchprovince" ng-model="churches.church.province"required="">
-                  <option ng-repeat="option in churches.provinces" value="{{option['@rid']}}" option.provinceName}}</option>
-                     <!-- <option value="Eastern Cape">Eastern Cape</option>
+                 <select class="form-control"  name="churchprovince" ng-model="churches.church.province"required=""
+                    ng-options="item.provinceName for item in churches.provinces track by item['@rid']"     
+                         >
+                  <!--  <option ng-repeat="option in churches.provinces" value="{{option['@rid']}}" option.provinceName}}</option>
+                    <option value="Eastern Cape">Eastern Cape</option>
                     <option value="Free State">Free State</option>
                      <option value="Gauteng">Gauteng</option>
                      <option value="KwaZulu-Natal">KwaZulu-Natal</option>
@@ -81,8 +83,8 @@
       </div>
 
 
-      <button type="submit" class="btn btn-default">Submit</button>
-   
+      <button type="submit" class="btn btn-default">{{submitLabel}}</button>
+      <button  class="btn btn-default" ng-click="churches.close()">Close</button>
  </form>
 </div>
    
@@ -114,7 +116,7 @@
             <tr ng-repeat="church in churches.churchlist" ng-click="churches.selectChurch(church)">
                      <td >{{ church.churchname }}</td>
                      <td>{{ church.churchcontactno }}</td>
-                     <td>{{ church.province}}</td>
+                     <td>{{ church.province.provinceName}}</td>
                      
                      
                      <td>

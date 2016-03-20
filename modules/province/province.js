@@ -1,7 +1,7 @@
 'use strict';
-define(['angular','ngMessages','ngMaterial'],
+define(['angular'],
        function (angular) {
-    angular.module('myApp.province', [])
+   return angular.module('myApp.province', [])
     .controller('provinceCtrl', provinceCtrl)
     
 
@@ -10,7 +10,7 @@ define(['angular','ngMessages','ngMaterial'],
         let vm=this;
         console.log("provinceCtrl");
         
-        getChurches($http,vm);
+       
         
        // vm.churches=[];
         this.findall = function()
@@ -26,14 +26,7 @@ define(['angular','ngMessages','ngMaterial'],
     }
     
     
-     function getChurches($http,vm) {
-        
-            console.log("get Province"); 
-             $http.get('http://localhost:3000/church/findall').success( function(churchList) {
-        	   vm.churches= churchList;  
-       });
-
-     }
+     
 
 
 });

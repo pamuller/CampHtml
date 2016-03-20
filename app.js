@@ -4,7 +4,7 @@ define([
     'uiRouter',
     'modules/church/churchcreate',
     'modules/registerUser/registerUser',
-    'modules/province/province',
+    'province',
     'ngMessages',
     'datatables',
     'angular-datatables'
