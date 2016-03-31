@@ -24,8 +24,7 @@ require.config({
     // angular does not support AMD out of the box, put it in a shim
     shim: {
         'angular': {
-            exports: 'angular',
-            deps: ['jquery']
+            exports: 'angular'      
         },
         'uiRouter':{
             deps: ['angular']
@@ -36,11 +35,13 @@ require.config({
         'ngMaterial':{
             deps: ['angular']
         },
+        'province':{
+            deps: ['angular']
+        },
         'angular-datatables':{
             deps: ['angular', 'datatables'],
             exports: 'angular'
-        }
-        
+        } 
     },
 
     // kick start application

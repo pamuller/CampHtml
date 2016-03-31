@@ -6,13 +6,13 @@ define([
     'modules/registerUser/registerUser',
     'province',
     'ngMessages',
-    'datatables',
     'angular-datatables'
+
 
 ], function (ng,$) {
     'use strict';
 
     return ng.module('myApp', [
-       'ui.router','myApp.churchcreate','myApp.registerUser','myApp.province','ngMessages','datatables'
+      'ui.router','myApp.churchcreate','myApp.registerUser','myApp.province','ngMessages','datatables'
     ]);
 });

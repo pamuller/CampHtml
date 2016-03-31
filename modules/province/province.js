@@ -1,9 +1,23 @@
 'use strict';
 define(['angular'],
        function (angular) {
-   return angular.module('myApp.province', [])
+   angular.module('myApp.province', [])
     .controller('provinceCtrl', provinceCtrl)
+    .factory('provinceList', provinceList);
     
+    
+    function provinceList($http)
+    {
+        
+      var provincelist = {};
+        
+      provincelist.getPovinceList = function () {
+        return $http.get('http://localhost:3000/province/findall');
+      }; 
+      return provincelist;   
+
+        
+    }
 
 
     function provinceCtrl($scope,$http) {
