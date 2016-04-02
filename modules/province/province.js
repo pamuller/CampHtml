@@ -1,16 +1,30 @@
 'use strict';
-define(['angular','ngMessages','ngMaterial'],
+define(['angular'],
        function (angular) {
-    angular.module('myApp.province', [])
+   angular.module('myApp.province', [])
     .controller('provinceCtrl', provinceCtrl)
+    .factory('provinceList', provinceList);
     
+    
+    function provinceList($http)
+    {
+        
+      var provincelist = {};
+        
+      provincelist.getPovinceList = function () {
+        return $http.get('http://localhost:3000/province/findall');
+      }; 
+      return provincelist;   
+
+        
+    }
 
 
     function provinceCtrl($scope,$http) {
         let vm=this;
         console.log("provinceCtrl");
         
-        getChurches($http,vm);
+       
         
        // vm.churches=[];
         this.findall = function()
@@ -26,14 +40,7 @@ define(['angular','ngMessages','ngMaterial'],
     }
     
     
-     function getChurches($http,vm) {
-        
-            console.log("get Province"); 
-             $http.get('http://localhost:3000/church/findall').success( function(churchList) {
-        	   vm.churches= churchList;  
-       });
-
-     }
+     
 
 
 });

@@ -10,6 +10,11 @@ define(['./app'], function(app) {
             url: '/register',
             templateUrl: 'modules/registerUser/registerUser.html',
             controller:'registerUserCtrl'
+        }),
+       $stateProvider.state('registerUserState2',{
+            url: '/register2',
+            templateUrl: 'modules/registerUser/registerUser2.html',
+            controller:'registerUserCtrl'
         })
         
     })

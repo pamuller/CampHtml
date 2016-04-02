@@ -1,11 +1,26 @@
 'use strict';
-define(['angular','ngMessages','datatables'],
+define(['angular','ngMessages'],
        function (angular){
-    angular.module('myApp.churchcreate', ['datatables'])
+    angular.module('myApp.churchcreate', [])
     .controller('ChurchCtrl', ChurchcreateCtrl)
+    .factory('churchList', churchList);
     
     
   //  ChurchcreateCtrl.$inject = ['$scope','$http'];
+    
+    
+     function churchList($http,vm)
+    {      
+        var churchlist = {};
+        
+        churchList.getChurchList=function(id)
+        {
+            return $http.get('http://localhost:3000/church//Churchlist/'+id);
+        } 
+        
+        
+        return churchlist;
+    }
              
                 
     function ChurchcreateCtrl($scope,$http,DTOptionsBuilder,DTColumnDefBuilder) {
@@ -13,6 +28,10 @@ define(['angular','ngMessages','datatables'],
         vm.provinces = [];
         vm.churchlist = [];
         vm.church = null;
+        vm.submitLabel=""
+        vm.isCreation = false;
+        vm.editIndex = 0;
+        
         
         vm.dtOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('full_numbers')
@@ -23,7 +42,7 @@ define(['angular','ngMessages','datatables'],
         DTColumnDefBuilder.newColumnDef(0),
         DTColumnDefBuilder.newColumnDef(1),
         DTColumnDefBuilder.newColumnDef(2),
-      DTColumnDefBuilder.newColumnDef(3).notSortable()
+        DTColumnDefBuilder.newColumnDef(3).notSortable()
     ];
         
         
@@ -65,35 +84,55 @@ define(['angular','ngMessages','datatables'],
         
          this.showCompanyView =function()
         {
-           vm.church =vm.churchlist[index];
+           vm.church ={};
+           $scope.submitLabel="Submit";
+           vm.isCreation = true;
+        }
+          this.close =function()
+        {
+           vm.church =null;
         }
          
            this.modifyChurch =function(index)
         {
              //vm.church =vm.churchlist[index];
-               var churchid=vm.churchlist[index]['rid'].substring(1);
-             $http.get('http://localhost:3000/church/find/'+churchid).success( function(church) {
-        	   vm.church  = church[0]
-             });   
                
-               
+               var churchid=vm.churchlist[index]['@rid'].substring(1,vm.churchlist[index]['@rid'].length);
+               $http.get('http://localhost:3000/church/find/'+churchid).success( function(church) {
+        	   vm.church  = church[0];
+                 $scope.submitLabel="Edit";
+                 vm.isCreation=false;
+                   vm.editIndex=index;               
+             });                           
+        }
+
+           this.updateChurch =function()
+        {
+             //vm.church =vm.churchlist[index];
+              var obj =angular.toJson(vm.church);
+             $http.put('http://localhost:3000/church/add/',obj).success( function(church) {
+        	   console.log("Church updated");
+                 
+                  vm.churchlist.splice(vm.editIndex, 1);
+                  vm.churchlist.push(vm.church);
+                  vm.church  = null;
+             });        
         }
            
           this.removeChurch =function(index)
-        {
-           
-               var churchid=vm.churchlist[index]['rid'].substring(1);
-                   $http.delete('http://localhost:3000/church/add/'+churchid,{})
+        {   
+               var churchid=vm.churchlist[index]['@rid'].substring(1);
+                   $http.delete('http://localhost:3000/church/add/'+churchid)
 	                    .then(function(response) {
 	                  	vm.churchlist.splice(index, 1);
 	                    	vm.church= null;
 	                      // assumes if ok, response is an object with some data, if not, a string with error
 	                      // customize according to your api
-	       
 	                    });
-        }   
-        
-        
+        }  
+          
+          
+         
     }            
     
     
