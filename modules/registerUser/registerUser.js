@@ -9,8 +9,9 @@ define(['angular','province'],
         
       let vm=this;
       vm.provinces=[];
-      vm.parent1={};
-      vm.parent1.contactdetails=[];
+      vm.parent={};
+      vm.parent.contactdetails=[];
+      vm.perantGardians=[];
       vm.medicalinfo={};
       vm.medicalinfo.allergies=[];  
       vm.medicalinfo.histories=[];
@@ -19,6 +20,7 @@ define(['angular','province'],
   
       //vm.provinces = provinceList.provincelist() ;
       // getProvince($http,vm);
+       vm.showInstructions=true;
        getProv(vm,provinceList) ;
         
         
@@ -39,13 +41,39 @@ define(['angular','province'],
          this.addContactno = function()
         {
             console.log("addContactno");
-            console.log(vm.parent1.contacttype);
-            console.log(vm.parent1.contactnum);
+            console.log(vm.parent.contacttype);
+            console.log(vm.parent.contactnum);
              
-             var contactdetail = {'contacttype':vm.parent1.contacttype,'contactno':vm.parent1.contactnum};
-             vm.parent1.contactdetails.push(contactdetail);
+             var contactdetail = {'contacttype':vm.parent.contacttype,'contactno':vm.parent.contactnum};
+             vm.parent.contactdetails.push(contactdetail);
 
         }
+         
+         
+        this.removeContactno = function(index){
+            console.log("remove called");
+            console.log(vm.parent.contactdetails.indexOf(index));
+            var rmindex = vm.parent.contactdetails.indexOf(index)
+            if (rmindex > -1)
+                {
+                    vm.parent.contactdetails.splice(rmindex,1);
+                }
+        }     
+        
+        this.addPerent = function (){
+            console.log("addParent entered");
+            var perantGardian = {'name':vm.parent.name, 
+                                 'surname': vm.parent.surname,
+                                 'relation':vm.parent.relation,
+                                 'codtactdetails':vm.parent.contactdetails
+                                };
+            vm.perantGardians.push(perantGardian);
+        }
+        
+        this.removePerent = function(index){
+            vm.perantGardians.splice(index,1);
+        }
+        
          
          
          this.addAllergies = function()
@@ -101,6 +129,33 @@ define(['angular','province'],
                 vm.churchlist= churchlist;  
               });             
         }
+         
+    
+          this.addEmergincyContact = function(){
+            console.log("add emergincy contact");
+            var emergencyContact={'name':vm.emerigency.name,
+                                  'telephone':vm.emerigency.telephone
+                                 };
+            vm.emergencyContacts.push(emergencyContact);
+        }
+          
+        this.removeEmergencycontact = function(index){
+            vm.emergencyContacts.splice(index,1);
+        }
+        
+        this.changeTab = function ()
+        {
+            console.log("change tab called");
+            vm.showCamper=false;
+            vm.showMedical=false;
+            vm.showOther=false;
+            vm.showParent=false;
+            vm.showUpload=false;
+             vm.showInstructions=false;
+            
+        }
+         
+         
     }
     
     function getProvince($http,vm) {
@@ -124,6 +179,9 @@ define(['angular','province'],
          }) ;
          
       }
+    
+   
+    
     
   
 
